@@ -3,20 +3,36 @@ const CONTEXT = SCREEN.getContext('2d')
 
 const GAME = {
     players:{
-        'player1' : {x:1, y:1},
-        'player2' : {x:1, y:9}
+        'player1' : {x:1, y:1}
     },
     fruits: {
-        'fruit1' : {x:3, y:1}
+        'fruit1' : {x:5, y:5}
     }
 }
-
 const PLAYERS = GAME.players
 const FRUITS = GAME.fruits
 
-document.addEventListener('keydown', (e) => {
-    console.log(e.key)
+let cont = 1
+function addFruit () {
+    cont ++
+    FRUITS["fruit" + cont] = {x: parseInt(Math.random() * 10 + 0), y: parseInt(Math.random() * 10 + 0)}
+    console.log(FRUITS["fruit" + cont])
+    const fruitx
+}
 
+function colisionFruits () {
+    for(let id in FRUITS){
+        const fruitId = FRUITS[id]
+        if (PLAYERS.player1.x == fruitId.x && fruitId.y == PLAYERS.player1.y) {
+            delete FRUITS[id]
+            console.log('Colisão')
+        }
+    }
+}
+
+setInterval(addFruit, 50000)
+
+document.addEventListener('keydown', (e) => {
     switch (true) {
         case (e.key == 'ArrowUp' && PLAYERS.player1.y > 0):
             PLAYERS.player1.y --
@@ -56,6 +72,7 @@ function renderGame () {
         CONTEXT.fillStyle = 'green'
         CONTEXT.fillRect(fruitId.x, fruitId.y, 1, 1)
     }
+    colisionFruits()
     requestAnimationFrame(renderGame)
 }
 renderGame()
